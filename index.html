@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d1b">
+  <title>FocusFlow — Personal Productivity OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#dashboard"><span class="brand-symbol">✦</span><span>focus<span class="brand-light">flow</span></span></a>
+    <div class="workspace"><span class="workspace-dot"></span> PERSONAL WORKSPACE <span class="chevron">⌄</span></div>
+    <div class="nav-caption">WORKSPACE</div>
+    <nav class="nav">
+      <a href="#dashboard" class="nav-link active" data-view="dashboard"><i>◫</i> Overview</a>
+      <a href="#tasks" class="nav-link" data-view="tasks"><i>☷</i> My tasks <span class="nav-badge" id="navPending">0</span></a>
+      <a href="#planner" class="nav-link" data-view="planner"><i>✧</i> Smart planner <span class="nav-new">NEW</span></a>
+      <a href="#focus" class="nav-link" data-view="focus"><i>◷</i> Focus room</a>
+      <a href="#insights" class="nav-link" data-view="insights"><i>⌁</i> Insights</a>
+    </nav>
+    <div class="nav-caption second-caption">PERSONAL</div>
+    <nav class="nav">
+      <a href="#habits" class="nav-link" data-view="habits"><i>♧</i> Habits</a>
+      <a href="#settings" class="nav-link" data-view="settings"><i>⚙</i> Settings</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="sidebar-quote"><div class="quote-star">✦</div><p id="sidebarQuote">Focus on progress, not perfection.</p><small>YOUR DAILY REMINDER</small></div>
+    <div class="user-card"><div class="user-avatar">Y</div><div class="user-info"><b id="userNameSide">Your workspace</b><small>Personal account</small></div><button class="dots" aria-label="Profile options">•••</button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">☰</button>
+      <div class="crumb">Workspace <span>/</span> <b id="crumbName">Overview</b></div>
+      <div class="topbar-right"><div class="date-chip" id="dateChip"></div><button class="round-btn" id="themeToggle" title="Toggle theme">☼</button><button class="top-avatar" id="profileButton" title="Edit profile">Y</button></div>
+    </header>
+
+    <!-- DASHBOARD VIEW -->
+    <section class="view active" id="view-dashboard">
+      <div class="hero-row reveal">
+        <div><div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL PRODUCTIVITY OS</div><h1 id="greeting">Good morning. <span>Let's make it count.</span></h1><p class="subheading">Your goals don't need a perfect day. They need a first step.</p></div>
+        <button class="btn btn-primary" data-go="tasks"><span>＋</span> Create a task</button>
+      </div>
+      <div class="stats-grid reveal">
+        <article class="stat-card"><div class="stat-head">Tasks completed <span class="stat-icon violet">✓</span></div><div class="stat-number" id="statDone">0</div><div class="stat-foot"><span class="positive">↗</span> Keep building momentum</div></article>
+        <article class="stat-card"><div class="stat-head">Tasks remaining <span class="stat-icon blue">◷</span></div><div class="stat-number" id="statPending">0</div><div class="stat-foot">One clear next step</div></article>
+        <article class="stat-card"><div class="stat-head">Focus minutes <span class="stat-icon mint">✦</span></div><div class="stat-number"><span id="statFocus">0</span><small> min</small></div><div class="stat-foot">Time invested in yourself</div></article>
+        <article class="stat-card"><div class="stat-head">Completion rate <span class="stat-icon amber">◎</span></div><div class="stat-number"><span id="statRate">0</span><small>%</small></div><div class="mini-progress"><span id="statProgress"></span></div><div class="stat-foot">Your daily task progress</div></article>
+      </div>
+      <div class="dashboard-grid">
+        <article class="surface task-preview reveal">
+          <div class="section-head"><div><div class="eyebrow">THE NEXT RIGHT THING</div><h2>Today's priorities</h2></div><button class="link-btn" data-go="tasks">View all <span>→</span></button></div>
+          <div id="dashboardTasks" class="dashboard-task-list"></div>
+          <button class="add-row" data-go="tasks">＋ Add another task</button>
+        </article>
+        <article class="surface focus-widget reveal">
+          <div class="section-head"><div><div class="eyebrow">DEEP WORK MODE</div><h2>Focus session</h2></div><span class="status-pill"><span class="pulse"></span> READY</span></div>
+          <div class="focus-mini-ring"><div><small>FOCUS TIMER</small><strong id="miniTimer">25:00</strong><span>One thing at a time.</span></div></div>
+          <button class="btn btn-primary full-btn" data-go="focus">Enter focus room <span>↗</span></button>
+        </article>
+      </div>
+      <div class="lower-grid">
+        <article class="surface chart-widget reveal"><div class="section-head"><div><div class="eyebrow">CONSISTENCY OVER INTENSITY</div><h2>Your activity</h2></div><span class="muted">This week</span></div><div class="chart" id="weekChart"></div><div class="chart-legend"><span><i></i> Tasks completed</span><span class="muted">Small wins count.</span></div></article>
+        <article class="surface assistant-widget reveal"><div class="assistant-title"><div class="assistant-orb">✧</div><div><div class="eyebrow">FOCUSFLOW INTELLIGENCE</div><h2>Your daily nudge</h2></div></div><p id="dailyNudge">You don't have to do everything today. Pick the one task that will make the biggest difference.</p><button class="btn btn-soft" id="refreshNudge">↻ Give me another tip</button><div class="ai-note">LOCAL DEMO ASSISTANT · NO API KEY NEEDED</div></article>
+      </div>
+    </section>
+
+    <!-- TASKS VIEW -->
+    <section class="view" id="view-tasks">
+      <div class="page-heading"><div><div class="eyebrow">PLAN IT. DO IT. DONE.</div><h1>My <span>tasks.</span></h1><p class="subheading">Turn everything on your mind into a clear next action.</p></div><div class="heading-stat"><b id="taskPageCount">0</b><small>tasks in your workspace</small></div></div>
+      <article class="surface task-manager">
+        <form id="taskForm" class="task-form"><div class="input-wrap"><span>＋</span><input id="taskInput" maxlength="100" placeholder="Add a task you want to finish..." required></div><select id="taskPriority" aria-label="Priority"><option value="Medium">Medium priority</option><option value="High">High priority</option><option value="Low">Low priority</option></select><input type="date" id="taskDate" aria-label="Due date"><button class="btn btn-primary" type="submit">Add task</button></form>
+        <div class="task-toolbar"><div class="filter-group"><button class="filter active" data-filter="all">All tasks</button><button class="filter" data-filter="active">To do</button><button class="filter" data-filter="done">Completed</button></div><div class="toolbar-right"><input id="taskSearch" class="search-input" placeholder="⌕  Search tasks..."><button class="btn btn-outline" id="clearDone">Clear completed</button></div></div>
+        <div id="fullTaskList" class="full-task-list"></div><div id="taskEmpty" class="empty-state"><div>✧</div><b>No tasks found</b><p>Add a task or change your filters.</p></div>
+      </article>
+      <div class="task-footnote">✦ Tip: Break large tasks into smaller actions you can finish in one sitting.</div>
+    </section>
+
+    <!-- SMART PLANNER VIEW -->
+    <section class="view" id="view-planner">
+      <div class="page-heading"><div><div class="eyebrow">LESS OVERWHELM. MORE DIRECTION.</div><h1>Smart <span>planner.</span></h1><p class="subheading">Create a simple plan from the tasks already on your list.</p></div></div>
+      <div class="planner-grid">
+        <article class="surface planner-main"><div class="section-head"><div><div class="eyebrow">YOUR PLAN BUILDER</div><h2>Design your day</h2></div><div class="planner-spark">✧</div></div><label class="field-label" for="plannerGoal">What matters most today?</label><textarea id="plannerGoal" rows="3" placeholder="Example: Finish my assignment and revise two chapters..."></textarea><div class="planner-options"><div><label class="field-label" for="plannerHours">Time available</label><select id="plannerHours"><option value="2">2 hours</option><option value="3" selected>3 hours</option><option value="4">4 hours</option><option value="5">5 hours</option><option value="6">6 hours</option></select></div><div><label class="field-label" for="plannerEnergy">Energy level</label><select id="plannerEnergy"><option value="high">High — ready to go</option><option value="medium" selected>Medium — steady pace</option><option value="low">Low — keep it gentle</option></select></div></div><button class="btn btn-primary" id="generatePlan">✧ Generate my plan</button><p class="ai-note">This planner uses your task list and local planning rules. No external AI service is connected.</p></article>
+        <article class="surface generated-plan"><div class="eyebrow">YOUR GENERATED ROUTINE</div><h2 id="planTitle">Your plan will appear here.</h2><div id="planOutput" class="plan-output"><div class="plan-placeholder"><span>◷</span><p>Choose your time and energy level, then generate a realistic plan for your day.</p></div></div></article>
+      </div>
+    </section>
+
+    <!-- FOCUS VIEW -->
+    <section class="view" id="view-focus">
+      <div class="page-heading"><div><div class="eyebrow">PROTECT YOUR ATTENTION</div><h1>Focus <span>room.</span></h1><p class="subheading">A quiet space for doing meaningful work.</p></div><div class="heading-stat"><span class="status-pill"><span class="pulse"></span> YOUR SPACE</span></div></div>
+      <div class="focus-page-grid">
+        <article class="surface timer-card"><div class="eyebrow">POMODORO TIMER</div><div class="big-timer-ring" id="bigTimerRing"><div class="timer-content"><small id="timerMode">FOCUS SESSION</small><strong id="timerDisplay">25:00</strong><span id="timerStatus">Ready when you are</span></div></div><div class="timer-presets"><button class="preset active" data-minutes="25">25 min focus</button><button class="preset" data-minutes="15">15 min focus</button><button class="preset" data-minutes="5">5 min break</button></div><div class="timer-buttons"><button class="btn btn-primary" id="timerStart">Start focus</button><button class="btn btn-outline" id="timerReset">↺ Reset</button></div><p class="timer-helper">Put distractions away. You can do one thing for 25 minutes.</p></article>
+        <article class="surface focus-side"><div class="eyebrow">YOUR FOCUS CHECKLIST</div><h2>Before you begin</h2><div class="checklist" id="focusChecklist"><label><input type="checkbox"> <span>Choose one task to work on</span></label><label><input type="checkbox"> <span>Silence unnecessary notifications</span></label><label><input type="checkbox"> <span>Keep water nearby</span></label><label><input type="checkbox"> <span>Take a deep breath and begin</span></label></div><div class="focus-quote"><span>“</span><p>Almost everything will work again if you unplug it for a few minutes, including you.</p><small>— ANNE LAMOTT</small></div><div class="focus-total"><span>Total focus time</span><b id="focusPageTotal">0 min</b></div></article>
+      </div>
+    </section>
+
+    <!-- INSIGHTS VIEW -->
+    <section class="view" id="view-insights">
+      <div class="page-heading"><div><div class="eyebrow">NOTICE YOUR PROGRESS</div><h1>Your <span>insights.</span></h1><p class="subheading">Progress is easier to see when you take a moment to look.</p></div></div>
+      <div class="insight-stats"><article class="surface insight-stat"><small>ALL-TIME COMPLETED</small><b id="insightDone">0</b><span>Tasks checked off</span></article><article class="surface insight-stat"><small>FOCUS TIME</small><b id="insightFocus">0m</b><span>Minutes invested</span></article><article class="surface insight-stat"><small>COMPLETION RATE</small><b id="insightRate">0%</b><span>Across your current tasks</span></article></div>
+      <article class="surface large-chart"><div class="section-head"><div><div class="eyebrow">WEEKLY MOMENTUM</div><h2>Tasks completed</h2></div><span class="muted">Last 7 days</span></div><div class="chart large" id="insightChart"></div></article>
+      <article class="surface reflection"><div class="assistant-orb">✦</div><div><h2>A note on progress</h2><p id="insightMessage">Every task you complete is proof that you can make progress. Keep your next step small and clear.</p></div></article>
+    </section>
+
+    <!-- HABITS VIEW -->
+    <section class="view" id="view-habits">
+      <div class="page-heading"><div><div class="eyebrow">TINY ACTIONS. LASTING CHANGE.</div><h1>Build better <span>habits.</span></h1><p class="subheading">Track a few small actions that help you feel your best.</p></div></div>
+      <div class="habit-grid" id="habitGrid"></div>
+      <div class="surface habit-note"><div class="assistant-orb">♧</div><div><h2>Make it easy to begin.</h2><p>Habits become easier when you connect them to a routine you already have. Start small, then repeat.</p></div></div>
+    </section>
+
+    <!-- SETTINGS VIEW -->
+    <section class="view" id="view-settings">
+      <div class="page-heading"><div><div class="eyebrow">MAKE THIS SPACE YOURS</div><h1>Workspace <span>settings.</span></h1><p class="subheading">Personalise your dashboard and manage your local data.</p></div></div>
+      <article class="surface settings-card"><div class="settings-row"><div><b>Display name</b><small>Used in your welcome message.</small></div><input id="displayName" maxlength="24" placeholder="Your name"></div><div class="settings-row"><div><b>Appearance</b><small>Choose the theme for your workspace.</small></div><button class="btn btn-outline" id="settingsTheme">Toggle dark / light</button></div><div class="settings-row"><div><b>Export your data</b><small>Download your tasks and focus totals as a JSON file.</small></div><button class="btn btn-outline" id="exportData">↓ Export data</button></div><div class="settings-row danger-row"><div><b>Reset workspace</b><small>Remove tasks, habits and focus totals from this browser.</small></div><button class="btn btn-danger" id="resetData">Reset all data</button></div><button class="btn btn-primary save-settings" id="saveSettings">Save settings</button></article>
+      <div class="privacy-note">Your data is stored locally in this browser using localStorage. It is not sent to a server.</div>
+    </section>
+    <footer>Built for meaningful progress <span>✦</span><small>FOCUSFLOW · HTML / CSS / VANILLA JAVASCRIPT</small></footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="modal-backdrop" id="confirmModal"><div class="modal"><button class="modal-x" id="modalClose">×</button><div class="assistant-orb">✧</div><h2 id="modalHeading">Are you sure?</h2><p id="modalText">This action cannot be undone.</p><div class="modal-actions"><button class="btn btn-outline" id="modalCancel">Cancel</button><button class="btn btn-danger" id="modalConfirm">Confirm</button></div></div></div>
+<script src="app.js"></script>
+</body></html>
